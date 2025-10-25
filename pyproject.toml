@@ -1,0 +1,15 @@
+[project]
+name = "moguls"
+version = "0.1.0"
+description = "Freestyle Moguls Competition Scoring System"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "django>=5.2.7",
+    "dotenv>=0.9.9",
+]
+
+[dependency-groups]
+dev = [
+    "ipython>=9.6.0",
+]

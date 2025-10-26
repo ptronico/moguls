@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "apps.commons",
     "apps.events",
     "apps.participants",
+    "apps.scores",
 ]
 
 AUTH_USER_MODEL = "users.User"

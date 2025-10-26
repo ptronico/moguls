@@ -18,6 +18,10 @@ Then activate the virtual environment:
 $ source .venv/bin/activate
 ```
 
+##### Environment variables
+
+Create a new `.env` file for setting your environment variables. You can use the `.env.example` file as reference.
+
 #### Running it locally
 
 Run the following command and then access the http://localhost:8000/.

@@ -1,4 +1,8 @@
+import logging
+
 from apps.scores.models import Score
+
+logger = logging.getLogger(__name__)
 
 
 class AddParticipantScoreService:
@@ -13,11 +17,13 @@ class AddParticipantScoreService:
                 time_score,
             ]
         )
-        Score.objects.create(
-            event_id=event_id,
-            participant_id=participant_id,
-            air_score=air_score,
-            turns_score=turns_score,
-            time_score=time_score,
-            total_score=total_score,
-        )
+        new_score_data = {
+            "event_id": event_id,
+            "participant_id": participant_id,
+            "air_score": air_score,
+            "turns_score": turns_score,
+            "time_score": time_score,
+            "total_score": total_score,
+        }
+        logger.info("Creating a new score object.")
+        Score.objects.create(**new_score_data)

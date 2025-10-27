@@ -9,6 +9,9 @@ from apps.scores.services.add_participant_score import AddParticipantScoreServic
 
 class AddScoreView(View):
     def get(self, request, event_id: int):
+        """
+        Presents the score form for creating a new score.
+        """
         context = {
             "event": Event.objects.get(id=event_id),
             "participant_form": ParticipantForm(),
@@ -16,6 +19,10 @@ class AddScoreView(View):
         return render(request, "add_score.html", context=context)
 
     def post(self, request, event_id: int):
+        """
+        Creates a new score entry for a given participant and event.
+        User sent data is validated before any write operation.
+        """
         event = Event.objects.get(id=event_id)
         participant_form = ParticipantForm(request.POST)
         if participant_form.is_valid():

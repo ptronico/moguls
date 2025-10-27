@@ -16,6 +16,8 @@ class ParticipantForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 "class": "form-control",
+                "min": "0",
+                "step": "0.01",
                 "type": "number",
             }
         ),
@@ -26,6 +28,8 @@ class ParticipantForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 "class": "form-control",
+                "min": "0",
+                "step": "0.01",
                 "type": "number",
             }
         ),
@@ -36,6 +40,8 @@ class ParticipantForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 "class": "form-control",
+                "min": "0",
+                "step": "0.01",
                 "type": "number",
             }
         ),

@@ -25,5 +25,5 @@ class AddParticipantScoreService:
             "time_score": time_score,
             "total_score": total_score,
         }
-        logger.info("Creating a new score object.")
-        Score.objects.create(**new_score_data)
+        logger.info("Creating a new score object.", extra=new_score_data)
+        return Score.objects.create(**new_score_data)

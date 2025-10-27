@@ -1,4 +1,8 @@
+import logging
+
 from apps.scores.models import Score
+
+logger = logging.getLogger(__name__)
 
 
 class DefaultEventRankingService:
@@ -7,7 +11,7 @@ class DefaultEventRankingService:
 
     def execute(self, event_id: int):
         """
-        Returns the ranking by default criteria for the given `event_id.
+        Returns the ranking by default criteria for the given `event_id`.
         """
         filters = {
             "event": event_id,

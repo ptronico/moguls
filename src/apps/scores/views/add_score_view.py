@@ -1,3 +1,5 @@
+import logging
+
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views import View
@@ -6,12 +8,15 @@ from apps.events.models import Event
 from apps.scores.forms.add_score import ParticipantForm
 from apps.scores.services.add_participant_score import AddParticipantScoreService
 
+logger = logging.getLogger(__name__)
+
 
 class AddScoreView(View):
     def get(self, request, event_id: int):
         """
         Presents the score form for creating a new score.
         """
+        # logging.critical("Hello world")
         context = {
             "event": Event.objects.get(id=event_id),
             "participant_form": ParticipantForm(),

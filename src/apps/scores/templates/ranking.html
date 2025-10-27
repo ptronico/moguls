@@ -10,21 +10,21 @@
       <tr>
         <th class="text-center">#</th>
         <th>Participant</th>
+        <th class="text-center">Total</th>
         <th class="text-center">Air</th>
         <th class="text-center">Turns</th>
         <th class="text-center">Time</th>
-        <th class="text-center">Total</th>
       </tr>
     </thead>
     <tbody>
       {% for score in ranking %}
       <tr>
-          <td class="text-center"><a target="_blank" href="{% url 'ranking' score.id %}">{{ forloop.counter|ordinal }}</a></td>
+          <td class="text-center"><a href="{% url 'edit_score' event.id score.id %}">{{ forloop.counter|ordinal }}</a></td>
           <td>{{ score.participant.full_name }}</td>
-          <td class="text-center">{{ score.air_score|floatformat:2 }}</td>
-          <td class="text-center">{{ score.turns_score|floatformat:2 }}</td>
-          <td class="text-center">{{ score.time_score|floatformat:2 }}</td>
-          <td class="text-center">{{ score.total_score|floatformat:2 }}</td>
+          <td class="text-center">{{ score.total_score|floatformat:1 }}</td>
+          <td class="text-center">{{ score.air_score|floatformat:1 }}</td>
+          <td class="text-center">{{ score.turns_score|floatformat:1 }}</td>
+          <td class="text-center">{{ score.time_score|floatformat:1 }}</td>
         </tr>
       {% endfor %}
     </tbody>

@@ -15,7 +15,7 @@ class AddParticipantScoreService:
         if air_score < 0 or air_score > 20:
             raise ValueError("`air_score` must have a value between 0 and 20.")
 
-        if turns_score < 0 or turns_score > 20:
+        if turns_score < 0 or turns_score > 60:
             raise ValueError("`turns_score` must have a value between 0 and 60.")
 
         if time_score < 0 or time_score > 20:

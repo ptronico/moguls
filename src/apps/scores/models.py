@@ -8,7 +8,7 @@ class ScoreManager(models.Manager):
         annotations = {
             "total_score_sql": models.ExpressionWrapper(
                 models.F("air_score") + models.F("turns_score") + models.F("time_score"),
-                output_field=models.FloatField(),
+                output_field=models.DecimalField(max_digits=4, decimal_places=1),
             ),
         }
         return super().get_queryset().annotate(**annotations)
@@ -17,9 +17,9 @@ class ScoreManager(models.Manager):
 class Score(BaseModel):
     event = models.ForeignKey("events.Event", on_delete=models.CASCADE)
     participant = models.ForeignKey("participants.Participant", on_delete=models.CASCADE)
-    air_score = models.FloatField(null=True, default=None, blank=True)
-    turns_score = models.FloatField(null=True, default=None, blank=True)
-    time_score = models.FloatField(null=True, default=None, blank=True)
+    air_score = models.DecimalField(max_digits=4, decimal_places=1, null=True, default=None, blank=True)
+    turns_score = models.DecimalField(max_digits=4, decimal_places=1, null=True, default=None, blank=True)
+    time_score = models.DecimalField(max_digits=4, decimal_places=1, null=True, default=None, blank=True)
     objects = ScoreManager()
 
     def __str__(self):

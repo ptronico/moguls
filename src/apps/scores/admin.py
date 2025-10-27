@@ -5,4 +5,4 @@ from .models import Score
 
 @admin.register(Score)
 class ScoreAdmin(admin.ModelAdmin):
-    pass
+    list_display = ["id", "participant", "total_score", "air_score", "turns_score", "time_score"]

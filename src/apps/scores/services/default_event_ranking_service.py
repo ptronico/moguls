@@ -1,5 +1,5 @@
 import logging
-
+from django.db.models import F, FloatField, ExpressionWrapper
 from apps.scores.models import Score
 
 logger = logging.getLogger(__name__)
@@ -17,7 +17,8 @@ class DefaultEventRankingService:
             "event": event_id,
         }
         order_by = [
-            "-total_score",
+            # "-total_score",
+            "-total",
             "-air_score",
             "-turns_score",
             "time_score",
@@ -26,4 +27,10 @@ class DefaultEventRankingService:
         select_related = [
             "participant",
         ]
-        return Score.objects.filter(**filters).select_related(*select_related).order_by(*order_by)
+        annotated = {
+            "total": ExpressionWrapper(
+                F("air_score") + F("turns_score") + F("time_score"),
+                output_field=FloatField(),
+            ),
+        }
+        return Score.objects.filter(**filters).select_related(*select_related).annotate(**annotated).order_by(*order_by)

@@ -76,7 +76,6 @@ class Command(BaseCommand):
                     turns_score=turns_score,
                     air_score=air_score,
                     time_score=time_score,
-                    total_score=turns_score + air_score + time_score,
                 )
                 self.stdout.write(
                     self.style.SUCCESS(f"Event: {event} | Participant: {participant} | Score: {score}"),

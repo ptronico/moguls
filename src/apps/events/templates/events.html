@@ -13,8 +13,8 @@
     <tbody>
       {% for event in events %}
         <tr>
-          <td class="text-center"><a target="_blank" href=".">{{ event.id }}</a></td>
-          <td><a href="{{ score.participant.id }}">{{ event.name }}</a></td>
+          <td class="text-center">{{ event.id }}</td>
+          <td><a href="{% url 'ranking' event.id %}">{{ event.name }}</a></td>
           <td class="text-center">{{ event.date }}</td>
         </tr>
       {% endfor %}

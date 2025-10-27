@@ -1,9 +1,10 @@
 from django.shortcuts import render
 
-from .services import get_ranking
+from apps.events.models import Event
+from apps.scores.services import DefaultEventRankingService
 
 
-def ranking(request, event_id: int):
+def event_ranking_view(request, event_id: int):
     """
     Lists all participants for that event, sorted by total_score (highest first).
         - If two or more participants have the same total score, apply tie-breaking in this order:
@@ -15,5 +16,11 @@ def ranking(request, event_id: int):
 
     + adicionar um critério final, pois o last_name pode ser igual.
     """
-    ranking = get_ranking(event_id=event_id)
-    return render(request, "ranking.html", context={"ranking": ranking})
+    event = Event.objects.get(id=event_id)
+    default_event_ranking_service = DefaultEventRankingService()
+    ranking = default_event_ranking_service.execute(event.id)
+    context = {
+        "event": event,
+        "ranking": ranking,
+    }
+    return render(request, "ranking.html", context=context)

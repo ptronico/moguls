@@ -1,5 +1,7 @@
 import faker
+from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
+from django.db import transaction
 from django.utils import timezone
 
 from apps.events.models import Event
@@ -8,6 +10,10 @@ from apps.scores.models import Score
 
 
 class Command(BaseCommand):
+    """
+    This command populates the development environment with seed data.
+    """
+
     help = "Populates Events, Participants and Scores"
 
     def add_arguments(self, parser):
@@ -24,7 +30,11 @@ class Command(BaseCommand):
             help="Number of participants to each event",
         )
 
+    @transaction.atomic
     def handle(self, *args, **options):
+        if not settings.DEBUG:
+            raise CommandError("This command is not allowed to run when DEBUG is False.")
+
         events = options.get("events")
         participants = options.get("participants")
 
@@ -38,18 +48,25 @@ class Command(BaseCommand):
             raise CommandError(f"{scores_count} scores already exist in database.")
 
         fake = faker.Faker()
+        unique_participants = set()
         event_date = timezone.now().replace(day=1, hour=0, minute=0, microsecond=0)
-        for i in range(events):
+        for _event_idx in range(events):
             event_date = (event_date - timezone.timedelta(days=1)).replace(day=1)
             event = Event.objects.create(
                 name=f"Event {event_date.strftime('%B %Y')}",
                 date=event_date,
             )
-            for j in range(participants):
-                participant = Participant.objects.create(
-                    first_name=fake.first_name_male(),
-                    last_name=fake.last_name_male(),
-                )
+            for _participant_idx in range(participants):
+                # Picking a random first and last name for a Participant. As we do
+                # not allow participants with same full name, we will do a limited
+                # number of attempts to get a unique name.
+                for _full_name_idx in range(100):
+                    first_name, last_name = fake.first_name(), fake.last_name()
+                    full_name = f"{first_name} {last_name}"
+                    if full_name not in unique_participants:
+                        unique_participants.add(full_name)
+                        break
+                participant = Participant.objects.create(first_name=first_name, last_name=last_name)
                 turns_score = fake.pyfloat(min_value=0, max_value=60, right_digits=2)
                 air_score = fake.pyfloat(min_value=0, max_value=20, right_digits=2)
                 time_score = fake.pyfloat(min_value=0, max_value=20, right_digits=2)
@@ -64,14 +81,3 @@ class Command(BaseCommand):
                 self.stdout.write(
                     self.style.SUCCESS(f"Event: {event} | Participant: {participant} | Score: {score}"),
                 )
-
-        # for poll_id in options["poll_ids"]:
-        #     try:
-        #         poll = Poll.objects.get(pk=poll_id)
-        #     except Poll.DoesNotExist:
-        #         raise CommandError('Poll "%s" does not exist' % poll_id)
-
-        #     poll.opened = False
-        #     poll.save()
-
-        #     self.stdout.write(self.style.SUCCESS('Successfully closed poll "%s"' % poll_id))

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block content %}
+  <h4>{{ event.name }} - Add Participant Score</h4>
+  <form method="post">
+    {% csrf_token %}
+    <div class="row mt-3">
+      <div class="col-4">
+        {{ add_score_form.as_p }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4">
+        <button class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </form>
+{% endblock %}

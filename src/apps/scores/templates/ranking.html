@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+
+{% block content %}
+  <h4>{{ event.name }} - Ranking</h4>
+  <a class="btn btn-primary" href="{% url 'add_score' event.id %}">Add Participant Score</a>
+  <table class="table table-striped table-bordered table-hover mt-3">
+    <thead>
+      <tr>
+        <th class="text-center">#</th>
+        <th>Participant</th>
+        <th class="text-center">Total</th>
+        <th class="text-center">Air</th>
+        <th class="text-center">Turns</th>
+        <th class="text-center">Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for score in ranking %}
+      <tr>
+          <td class="text-center"><a href="{% url 'edit_score' event.id score.id %}">{{ forloop.counter|ordinal }}</a></td>
+          <td>{{ score.participant.full_name }}</td>
+          <td class="text-center">{{ score.total_score }}</td>
+          <td class="text-center">{{ score.air_score }}</td>
+          <td class="text-center">{{ score.turns_score }}</td>
+          <td class="text-center">{{ score.time_score }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

@@ -1,5 +1,7 @@
 import logging
-from django.db.models import F, FloatField, ExpressionWrapper
+
+from django.db.models import ExpressionWrapper, F, FloatField
+
 from apps.scores.models import Score
 
 logger = logging.getLogger(__name__)
@@ -17,7 +19,6 @@ class DefaultEventRankingService:
             "event": event_id,
         }
         order_by = [
-            # "-total_score",
             "-total",
             "-air_score",
             "-turns_score",

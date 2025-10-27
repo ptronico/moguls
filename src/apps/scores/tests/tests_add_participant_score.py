@@ -26,3 +26,36 @@ class RankingByTotalScoreTestCase(TestCase):
         self.assertEqual(score.turns_score, 2.0)
         self.assertEqual(score.time_score, 3.0)
         self.assertEqual(score.total_score, 6.0)
+
+    def test_add_participant_with_wrong_score(self):
+        add_participant_score_service = AddParticipantScoreService()
+        with self.assertRaises(ValueError):
+            add_participant_score_service.execute(
+                event_id=self.event.id,
+                participant_id=self.aaron_jones.id,
+                air_score=100,
+                turns_score=200,
+                time_score=300,
+            )
+
+    def test_add_participant_with_wrong_event_id(self):
+        add_participant_score_service = AddParticipantScoreService()
+        with self.assertRaises(ValueError):
+            add_participant_score_service.execute(
+                event_id=None,
+                participant_id=self.aaron_jones.id,
+                air_score=100,
+                turns_score=200,
+                time_score=300,
+            )
+
+    def test_add_participant_with_wrong_participant_id(self):
+        add_participant_score_service = AddParticipantScoreService()
+        with self.assertRaises(ValueError):
+            add_participant_score_service.execute(
+                event_id=self.event.id,
+                participant_id=self.aaron_jones.id + 1,
+                air_score=1,
+                turns_score=1,
+                time_score=1,
+            )

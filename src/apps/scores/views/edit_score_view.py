@@ -17,7 +17,7 @@ class EditScoreView(View):
 
     def get(self, request, event_id: int, score_id: int):
         """
-        Presents the score form for creating a new score.
+        Presents the score form for editing an existing score.
         """
         score = Score.objects.get(id=score_id)
         context = {
@@ -28,13 +28,15 @@ class EditScoreView(View):
 
     def post(self, request, event_id: int, score_id: int):
         """
-        Creates a new score entry for a given participant and event.
+        Editis a score entry for a given participant and event.
         User sent data is validated before any write operation.
+
+        NOTE: possible future improvent would require an authenticated
+        user to perform this operation.
         """
         event = Event.objects.get(id=event_id)
         edit_score_form = EditScoreForm(request.POST)
         if edit_score_form.is_valid():
-            print(edit_score_form.cleaned_data)
             edit_participant_score_service = EditParticipantScoreService()
             edit_participant_score_service.execute(
                 score_id=score_id,

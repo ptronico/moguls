@@ -3,7 +3,12 @@ from django import forms
 from apps.participants.models import Participant
 
 
-class ParticipantForm(forms.Form):
+class EditScoreForm(forms.Form):
+    """
+    Form for cleaning user submited data for creating
+    new score of a participant in an event.
+    """
+
     participant = forms.ModelChoiceField(
         queryset=Participant.objects.all(),
         widget=forms.Select(

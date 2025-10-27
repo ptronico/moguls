@@ -7,6 +7,15 @@ logger = logging.getLogger(__name__)
 
 
 class DefaultEventRankingService:
+    """
+    Returns a queryset of the ranking for a given event.
+
+    NOTE: there might be a considerable room of future
+    improvements, for reducing coupling by passing dependencies
+    by arguments (i.e. injecting a repository) and returning
+    data transfer objects instead of a model queryset.
+    """
+
     def __init__(self):
         pass
 

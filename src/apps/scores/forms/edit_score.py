@@ -4,6 +4,11 @@ from apps.scores.models import Score
 
 
 class EditScoreForm(forms.ModelForm):
+    """
+    Form for cleaning user submited data for creating
+    new score of a participant in an event.
+    """
+
     class Meta:
         model = Score
         fields = ["air_score", "turns_score", "time_score"]

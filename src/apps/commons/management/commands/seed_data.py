@@ -12,6 +12,13 @@ from apps.scores.models import Score
 class Command(BaseCommand):
     """
     This command populates the development environment with seed data.
+    You can pass the number of events and participants by arguments.
+
+    It only runs when:
+        - `DEBUG=True`
+        - There is no events
+        - There is no participants
+        - Tehre is no scores
     """
 
     help = "Populates Events, Participants and Scores"
@@ -67,6 +74,8 @@ class Command(BaseCommand):
                         unique_participants.add(full_name)
                         break
                 participant = Participant.objects.create(first_name=first_name, last_name=last_name)
+                # Narrow the range of scores so it helps to more easly identify
+                # the propper order on event ranking page.
                 air_score = fake.pydecimal(min_value=18.1, max_value=20, right_digits=1)
                 turns_score = fake.pydecimal(min_value=58.1, max_value=60, right_digits=1)
                 time_score = fake.pydecimal(min_value=18.1, max_value=20, right_digits=1)

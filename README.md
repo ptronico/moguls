@@ -12,6 +12,8 @@ For more information on Freestyle Moguls and its Scoring see the following links
 
 ## Setup it locally
 
+After clonning the repository and change your directory, follow the steps below:
+
 ### 1. Set the virtual environment
 
 We are using [uv](https://github.com/astral-sh/uv) for managing this project. Run the sync command, so `uv` can create a new virtual environment using a compatible python version and install all required dependencies. See below:

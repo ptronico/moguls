@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Bootstrap demo</title>
+    <title>Freestyle Moguls Competition Scoring System</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -24,7 +24,6 @@
           {% if event %}
             <li class="breadcrumb-item"><a href="{% url 'ranking' event.id %}">{{ event.name }}</a></li>
           {% endif %}
-          {% comment %} <li class="breadcrumb-item active" aria-current="page">Data</li> {% endcomment %}
         </ol>
       </nav>
     </div>

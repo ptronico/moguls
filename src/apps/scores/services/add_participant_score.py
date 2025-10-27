@@ -8,6 +8,12 @@ logger = logging.getLogger(__name__)
 
 
 class AddParticipantScoreService:
+    """
+    Creates a new score entry for a given participant in a
+    given event. The score must follow the business rule for
+    the Freestyle Moguls Competition Scoring System.
+    """
+
     def __init__(self):
         pass
 

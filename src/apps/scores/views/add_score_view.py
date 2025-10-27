@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.views import View
 
 from apps.events.models import Event
-from apps.scores.forms.add_score import ParticipantForm
+from apps.scores.forms.add_score import EditScoreForm
 from apps.scores.services.add_participant_score import AddParticipantScoreService
 
 logger = logging.getLogger(__name__)
@@ -16,10 +16,9 @@ class AddScoreView(View):
         """
         Presents the score form for creating a new score.
         """
-        # logging.critical("Hello world")
         context = {
             "event": Event.objects.get(id=event_id),
-            "participant_form": ParticipantForm(),
+            "add_score_form": EditScoreForm(),
         }
         return render(request, "add_score.html", context=context)
 
@@ -27,21 +26,24 @@ class AddScoreView(View):
         """
         Creates a new score entry for a given participant and event.
         User sent data is validated before any write operation.
+
+        NOTE: possible future improvent would require an authenticated
+        user to perform this operation.
         """
         event = Event.objects.get(id=event_id)
-        participant_form = ParticipantForm(request.POST)
-        if participant_form.is_valid():
+        add_score_form = EditScoreForm(request.POST)
+        if add_score_form.is_valid():
             add_participant_score_service = AddParticipantScoreService()
             add_participant_score_service.execute(
                 event_id=event.id,
-                participant_id=participant_form.cleaned_data["participant"].id,
-                air_score=participant_form.cleaned_data["air_score"],
-                turns_score=participant_form.cleaned_data["turns_score"],
-                time_score=participant_form.cleaned_data["time_score"],
+                participant_id=add_score_form.cleaned_data["participant"].id,
+                air_score=add_score_form.cleaned_data["air_score"],
+                turns_score=add_score_form.cleaned_data["turns_score"],
+                time_score=add_score_form.cleaned_data["time_score"],
             )
             return redirect(reverse("ranking", args=[event_id]))
         context = {
             "event": event,
-            "participant_form": participant_form,
+            "add_score_form": add_score_form,
         }
         return render(request, "add_score.html", context=context)

@@ -9,25 +9,21 @@ from apps.commons.models import BaseModel
 class ScoreManager(models.Manager):
     def get_queryset(self):
         """
-        Return The default queryset for the `Store` model includes a calculated `_total_score`
-        field with the sum of `air_score`, `turns_score` and `time_score`.
-        """
-        """
-        Returns the default queryset for the `Score` model with an extra annotated
-        field named `total_score_sql`, which represents the sum of `air_score`,
-        `turns_score`, and `time_score`.
+        Returns the default queryset for the `Score` model with an annotated field
+        named `total_score_sql`, representing the sum of `air_score`, `turns_score`,
+        and `time_score`.
 
         Each component score is:
-        - Cast to a DecimalField with a precision of one decimal place
-        - Coalesced to zero if it is NULL
-        - Rounded to a single decimal place after the summation
+            - Cast to a DecimalField with one decimal place
+            - Coalesced to zero if NULL
+            - Rounded to a single decimal place after summation
 
-        This annotation ensures a consistent and database-level calculation of
-        the total score.
+        This provides a consistent, database-level calculation of the total score.
 
-        NOTE: SqLite does not have the decimal type. For this it will output
-        values like `Decimal('99.9000000000000')`. A later improvement is to
-        handle this by transform or quantize it to 1 decimal place.
+        NOTE: SQLite does not support a native decimal type, so the annotated result
+        may render as values like `Decimal('99.9000000000000')`. A later improvement
+        will properly quantize or transform this to one decimal place at the ORM
+        level (currently handled by a model property).
         """
         annotations = {
             "total_score_sql": Round(
@@ -49,6 +45,23 @@ class ScoreManager(models.Manager):
         return super().get_queryset().annotate(**annotations)
 
     def get_default_ranking(self, event_id: int):
+        """
+        Executes the query and applies ordering at the database level
+        for better performance. The ranking is determined by multiple
+        fields, including a calculated field `total_score_sql` and a
+        related field `participant__last_name`.
+
+        Each ranking is scoped by `event_id`, which significantly reduces
+        the result set and allows efficient filtering and joins without
+        requiring additional indexes beyond `event_id`.
+
+        If requirements change or further optimization is needed, the
+        `total_score_sql` and `participant_last_name` fields could be
+        materialized in the score table and combined into a composite
+        index (in the same order as the ORDER BY clause). This would
+        allow the database to serve the query directly from the index
+        and return results even faster.
+        """
         filters = {
             "event": event_id,
         }
@@ -67,6 +80,11 @@ class ScoreManager(models.Manager):
 
 class Score(BaseModel):
     class Meta:
+        """
+        Added index to `event` column as each ranking listing result
+        is per event. The default ordering is based in the primary key.
+        """
+
         ordering = ["-id"]
         indexes = [
             models.Index(fields=["event"], name="event_index"),
@@ -85,10 +103,10 @@ class Score(BaseModel):
     @property
     def total_score(self):
         """
-        Total score calculated by summing `air_score`, `turns_score` and `time_score`.
+        Total score computed as the sum of air_score, turns_score, and time_score.
 
-        If the model was instantiated from a queryset and it has the `total_score_sql`
-        from the custom manager, use its value.
+        If the instance was loaded from a queryset annotated with `total_score_sql`,
+        that value is used instead.
         """
         total_score_sql = getattr(self, "total_score_sql", None)
         if total_score_sql is not None:

@@ -6,6 +6,16 @@ logger = logging.getLogger(__name__)
 
 
 class EditParticipantScoreService:
+    """
+    Edits a score entry for a given participant in a
+    given event. The score must follow the business rule for
+    the Freestyle Moguls Competition Scoring System.
+
+    NOTE: in the future we might create a policy service
+    and reuse some validation logic in different application
+    services or usecases.
+    """
+
     def __init__(self):
         pass
 

@@ -3,7 +3,7 @@
 {% load humanize %}
 
 {% block content %}
-  <h3>{{ event.name }} - Ranking</h3>
+  <h4>{{ event.name }} - Ranking</h4>
   <a class="btn btn-primary" href="{% url 'add_score' event.id %}">Add Participant Score</a>
   <table class="table table-striped table-bordered table-hover mt-3">
     <thead>

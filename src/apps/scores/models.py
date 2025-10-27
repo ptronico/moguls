@@ -3,6 +3,14 @@ from django.db import models
 from apps.commons.models import BaseModel
 
 
+# class ScoreManager(models.Manager):
+#     def create(self, object):
+
+
+#     def with_counts(self):
+#         return self.annotate(num_responses=Coalesce(models.Count("response"), 0))
+
+
 class Score(BaseModel):
     event = models.ForeignKey("events.Event", on_delete=models.CASCADE)
     participant = models.ForeignKey("participants.Participant", on_delete=models.CASCADE)

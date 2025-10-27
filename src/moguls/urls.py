@@ -15,12 +15,21 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from django.conf import settings
 from django.contrib import admin
 from django.urls import path
 
+from apps.events.views import list_events
 from apps.scores.views import ranking
 
 urlpatterns = [
-    path("ranking/", ranking),
+    path("events/", list_events),
+    path("events/<int:event_id>/ranking/", ranking),
     path("admin/", admin.site.urls),
 ]
+
+
+if settings.DEBUG:
+    from debug_toolbar.toolbar import debug_toolbar_urls
+
+    urlpatterns += debug_toolbar_urls()

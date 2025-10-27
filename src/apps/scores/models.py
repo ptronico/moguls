@@ -23,21 +23,21 @@ class Score(BaseModel):
         return f"{self.id}"
 
 
-@receiver(pre_save, sender=Score)
-def compute_total_score(sender, **kwargs):
-    # print(sender)
-    # print(kwargs)
-    instance = kwargs.get("instance", None)
-    if (
-        instance
-        and instance.turns_score is not None
-        and instance.air_score is not None
-        and instance.time_score is not None
-    ):
-        instance.total_score = sum(
-            [
-                instance.turns_score,
-                instance.air_score,
-                instance.time_score,
-            ]
-        )
+# @receiver(pre_save, sender=Score)
+# def compute_total_score(sender, **kwargs):
+#     # print(sender)
+#     # print(kwargs)
+#     instance = kwargs.get("instance", None)
+#     if (
+#         instance
+#         and instance.turns_score is not None
+#         and instance.air_score is not None
+#         and instance.time_score is not None
+#     ):
+#         instance.total_score = sum(
+#             [
+#                 instance.turns_score,
+#                 instance.air_score,
+#                 instance.time_score,
+#             ]
+#         )

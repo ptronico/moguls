@@ -20,7 +20,7 @@
       {% for score in ranking %}
       <tr>
           <td class="text-center"><a target="_blank" href="{% url 'ranking' score.id %}">{{ forloop.counter|ordinal }}</a></td>
-          <td><a href="{{ score.participant.id }}">{{ score.participant.first_name }} {{ score.participant.last_name }}</a></td>
+          <td>{{ score.participant.full_name }}</td>
           <td class="text-center">{{ score.air_score|floatformat:2 }}</td>
           <td class="text-center">{{ score.turns_score|floatformat:2 }}</td>
           <td class="text-center">{{ score.time_score|floatformat:2 }}</td>

@@ -61,6 +61,10 @@ class ScoreManager(models.Manager):
         index (in the same order as the ORDER BY clause). This would
         allow the database to serve the query directly from the index
         and return results even faster.
+
+        NOTE: The `id` field is added as the final tie-breaker to ensure
+        stable ordering. Without it, pagination could cause some records
+        with identical scores to be skipped or not consistently returned.
         """
         filters = {
             "event": event_id,
@@ -71,6 +75,7 @@ class ScoreManager(models.Manager):
             "-turns_score",
             "time_score",
             "participant__last_name",
+            "id",
         ]
         select_related = [
             "participant",

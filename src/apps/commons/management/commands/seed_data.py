@@ -20,7 +20,7 @@ class Command(BaseCommand):
         parser.add_argument(
             "--events",
             type=int,
-            default=1,
+            default=5,
             help="Number of events to create",
         )
         parser.add_argument(
@@ -67,9 +67,9 @@ class Command(BaseCommand):
                         unique_participants.add(full_name)
                         break
                 participant = Participant.objects.create(first_name=first_name, last_name=last_name)
-                air_score = fake.pydecimal(min_value=19, max_value=20, right_digits=1)
-                turns_score = fake.pydecimal(min_value=59, max_value=60, right_digits=1)
-                time_score = fake.pydecimal(min_value=19, max_value=20, right_digits=1)
+                air_score = fake.pydecimal(min_value=18.1, max_value=20, right_digits=1)
+                turns_score = fake.pydecimal(min_value=58.1, max_value=60, right_digits=1)
+                time_score = fake.pydecimal(min_value=18.1, max_value=20, right_digits=1)
                 score = Score.objects.create(
                     participant=participant,
                     event=event,

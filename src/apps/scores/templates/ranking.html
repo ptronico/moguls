@@ -11,7 +11,6 @@
         <th class="text-center">#</th>
         <th>Participant</th>
         <th class="text-center">Total</th>
-        <th class="text-center">Total</th>
         <th class="text-center">Air</th>
         <th class="text-center">Turns</th>
         <th class="text-center">Time</th>
@@ -22,14 +21,7 @@
       <tr>
           <td class="text-center"><a href="{% url 'edit_score' event.id score.id %}">{{ forloop.counter|ordinal }}</a></td>
           <td>{{ score.participant.full_name }}</td>
-          {% comment %}
-          <td class="text-center">{{ score.total_score|floatformat:1 }}</td>
-          <td class="text-center">{{ score.air_score|floatformat:1 }}</td>
-          <td class="text-center">{{ score.turns_score|floatformat:1 }}</td>
-          <td class="text-center">{{ score.time_score|floatformat:1 }}</td>
-          {% endcomment %}
           <td class="text-center">{{ score.total_score }}</td>
-          <td class="text-center">{{ score.total_score_sql }}</td>
           <td class="text-center">{{ score.air_score }}</td>
           <td class="text-center">{{ score.turns_score }}</td>
           <td class="text-center">{{ score.time_score }}</td>

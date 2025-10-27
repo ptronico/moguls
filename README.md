@@ -2,6 +2,12 @@
 
 This Python and Django project is a Freestyle Moguls Competition Scoring System. You can use it to create events, add participants, record its score and get the ranking listing.
 
+For more information on Freestyle Moguls and its Scoring see the following links:
+
+- [Mogul Skiing](https://en.wikipedia.org/wiki/Mogul_skiing)
+- [Fis Freestyle Skiing Judging Handbook](https://assets.fis-ski.com/f/252177/x/1eedc72758/freestyle-skiing-judging-handbook-august-2024.pdf)
+- [Judges Cards Moguls Turns Freestyle Skiing](https://assets.fis-ski.com/f/252177/7ae160397a/judges_cards_moguls_turns_freestyle_skiing_2020.pdf)
+
 ---
 
 ## Setup it locally
@@ -53,6 +59,17 @@ $ python src/manage.py runserver
 ```
 
 ---
+
+## Other operations
+
+### Create a supersuser account
+
+This allows you to access Django Admin and manage Events, Participants and Scores.
+
+```
+$ python src/manage.py createsuperuser
+```
+
 
 ### Running tests locally
 
